@@ -39,18 +39,30 @@ public class SparkJobServerTest {
     @Test
     public void testSparkJobServer_listAllJobs() {
         List<SparkJob> jobs = sparkJobServer.listAllSparkJobs();
-        System.out.println(jobs);
+        Assert.assertTrue(!jobs.isEmpty());
     }
 
     @Test
     public void testSparkJobServer_queryForJob() {
         JobStatus jobStatus = sparkJobServer.queryJobStatus("a6a2075a-91af-4af1-8b14-e6cf31ede4e9");
-        System.out.println(jobStatus);
+        Assert.assertEquals(jobStatus, JobStatus.FINISHED);
     }
 
     @Test
     public void testSparkJobServer_submitSparkJob() throws IOException {
         String response = sparkJobServer.submitSparkJob("test-spark-server-yarn", "com.a3.A3YarnSampleSparkJob", "test-context");
-        System.out.println(response);
+        Assert.assertNotNull(response);
+    }
+
+    @Test
+    public void testSparkJobServer_submitSparkJobAndCancelIt() throws IOException {
+        // submit a job
+        String jobId = sparkJobServer.submitSparkJob("test-spark-server-yarn", "com.a3.LongRunSparkJob", "test-context");
+
+        // query job
+
+        // cancel job
+
+        // query again for job
     }
 }

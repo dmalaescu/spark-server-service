@@ -78,9 +78,8 @@ public class SparkJobServerImpl implements SparkJobServer {
     }
 
     @Override
-    public String cancelSparkJob(String jobId) {
-        //TODO implement delete support
-        return "";
+    public void cancelSparkJob(String jobId) {
+        restTemplate.delete(baseUrl + "/jobs/" + jobId);
     }
 
     @Override

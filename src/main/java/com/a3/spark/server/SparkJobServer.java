@@ -41,7 +41,7 @@ public interface SparkJobServer {
      * @param jobId
      * @return
      */
-    String cancelSparkJob(String jobId);
+    void cancelSparkJob(String jobId);
 
     /**
      * query a job for it's status
