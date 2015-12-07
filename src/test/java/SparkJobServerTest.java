@@ -55,14 +55,22 @@ public class SparkJobServerTest {
     }
 
     @Test
-    public void testSparkJobServer_submitSparkJobAndCancelIt() throws IOException {
+    public void testSparkJobServer_submitSparkJobAndCancelIt() throws IOException, InterruptedException {
         // submit a job
-        String jobId = sparkJobServer.submitSparkJob("test-spark-server-yarn", "com.a3.LongRunSparkJob", "test-context");
+        String jobId = sparkJobServer.submitSparkJob("test-spark-yarn-server", "com.a3.LongRunSparkJob", "test-context");
 
         // query job
+        //wait for a second that yarn scheduler could trigger starting
+        Thread.sleep(1000);
+        JobStatus jobStatus = sparkJobServer.queryJobStatus(jobId);
+        Assert.assertTrue(jobStatus == JobStatus.RUNNING);
 
         // cancel job
+        sparkJobServer.cancelSparkJob(jobId);
 
         // query again for job
+        Thread.sleep(1000);
+        JobStatus cancelJobStatus = sparkJobServer.queryJobStatus(jobId);
+        Assert.assertTrue(cancelJobStatus != null );
     }
 }
